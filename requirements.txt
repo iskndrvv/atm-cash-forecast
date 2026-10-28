@@ -1,0 +1,10 @@
+pandas
+numpy
+duckdb
+pyarrow
+matplotlib
+seaborn
+scikit-learn
+lightgbm
+jupyter
+huggingface_hub

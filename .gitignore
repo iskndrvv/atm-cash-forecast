@@ -1,0 +1,16 @@
+# Окружение
+venv/
+.env
+
+# Данные (большие файлы не храним в git)
+data/*
+!data/.gitkeep
+*.csv
+*.parquet
+
+# Python / Jupyter
+__pycache__/
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
