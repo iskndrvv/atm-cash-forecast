@@ -18,3 +18,6 @@ __pycache__/
 # Локальные инструкции для AI-агентов
 .agents/
 .claude/
+
+# Keynote-файлы отчётов
+reports/*.key
