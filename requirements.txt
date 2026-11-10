@@ -10,3 +10,4 @@ jupyter
 huggingface_hub
 optuna
 streamlit
+python-pptx

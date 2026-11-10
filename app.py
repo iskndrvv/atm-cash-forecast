@@ -123,10 +123,14 @@ st.caption("Демо на данных MBank (синтетические, Биш
            "Прогноз делается вечером накануне: модель знает только то, что было до этого дня, "
            "а потом сравниваем с тем, что произошло на самом деле.")
 
+# Ссылка на конкретную неделю: ?atm=ATM-0053&start=2025-08-08 (удобно для показа)
+qp_atm = st.query_params.get("atm")
+qp_start = pd.to_datetime(st.query_params.get("start"), errors="coerce")
+
 with st.sidebar:
     st.header("Параметры")
     atm_id = st.selectbox(
-        "Банкомат", atms.index,
+        "Банкомат", atms.index, index=atms.index.get_loc(qp_atm) if qp_atm in atms.index else 0,
         format_func=lambda a: f"{a} · {atms.loc[a, 'district']} · {ATM_TYPE_RU.get(atms.loc[a, 'atm_type'], atms.loc[a, 'atm_type'])}")
     a = atms.loc[atm_id]
     st.markdown(f"**Район:** {a.district}  \n**Тип места:** {ATM_TYPE_RU.get(a.atm_type, a.atm_type)}  \n"
@@ -135,7 +139,8 @@ with st.sidebar:
 
     atm_weeks = weeks[weeks.atm_id == atm_id]
     min_d, max_d = atm_weeks.date.min().date(), atm_weeks.date.max().date()
-    start_date = st.date_input("Начало недели", value=max(min_d, pd.Timestamp("2025-10-06").date()),
+    default = qp_start.date() if pd.notna(qp_start) and qp_atm == atm_id else pd.Timestamp("2025-10-06").date()
+    start_date = st.date_input("Начало недели", value=min(max(min_d, default), max_d),
                                min_value=min_d, max_value=max_d, format="DD.MM.YYYY")
     st.caption(f"Доступно: {min_d:%d.%m.%Y} – {max_d:%d.%m.%Y} (проверочный период, который модель не видела при обучении).")
 
@@ -156,7 +161,7 @@ long = days.melt(id_vars=["label", "сбой"], value_vars=["Прогноз мо
                  var_name="ряд", value_name="сом")
 order = list(days.label)
 x = alt.X("label:N", sort=order, title=None, axis=alt.Axis(labelAngle=0))
-y_axis = alt.Axis(title="тыс. сом в день", labelExpr="format(datum.value / 1000, ',.0f')")
+y_axis = alt.Axis(title="тыс. сом в день", labelExpr="replace(format(datum.value / 1000, ',.0f'), ',', ' ')")
 bars = alt.Chart(long[long["ряд"] == "Факт"]).mark_bar(size=34, opacity=0.85).encode(
     x=x, y=alt.Y("сом:Q", axis=y_axis),
     color=alt.condition("datum['сбой']", alt.value(BAD_C), alt.value(FACT_C)),
