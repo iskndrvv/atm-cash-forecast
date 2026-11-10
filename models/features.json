@@ -1,0 +1,104 @@
+{
+  "model": "LightGBM (LGBMRegressor), признаки из notebooks/03_optimization.ipynb",
+  "target": "cash_out — выдача наличных банкоматом за день, сом",
+  "forecast": "прогноз на день D, сделанный вечером дня D−1",
+  "features": [
+    "dow",
+    "atm_type",
+    "district_id",
+    "is_holiday",
+    "is_pre_holiday",
+    "is_payday",
+    "is_pension_day",
+    "is_ramadan",
+    "is_weekend",
+    "is_street",
+    "fx_shock_last3",
+    "lag_1",
+    "lag_7",
+    "lag_14",
+    "roll_mean_7",
+    "roll_mean_28",
+    "temp_avg_lag1",
+    "precip_mm_lag1",
+    "snowfall_mm_lag1",
+    "wind_max_lag1",
+    "dom",
+    "lag_28"
+  ],
+  "categorical": {
+    "atm_type": [
+      "highway_gas",
+      "office_business",
+      "pension_social",
+      "residential",
+      "shopping_mall",
+      "tourist_center",
+      "transport_market"
+    ],
+    "district_id": [
+      "ZN-ALAMEDIN1",
+      "ZN-CENTER",
+      "ZN-DORDOI",
+      "ZN-ERKINDIK",
+      "ZN-HIGHWAY",
+      "ZN-JAL",
+      "ZN-KOKJAR",
+      "ZN-MALLS",
+      "ZN-OSHBAZAR",
+      "ZN-PROMZONE",
+      "ZN-SOCIAL",
+      "ZN-TUNGUCH",
+      "ZN-UCHKUN",
+      "ZN-VOSTOK5",
+      "ZN-WESTBUS",
+      "ZN-YUG2"
+    ]
+  },
+  "feature_notes": {
+    "lag_k": "выдача k дней назад; дни сбоев (is_disrupted) заменены на пропуск",
+    "roll_mean_7 / roll_mean_28": "среднее за 7 / 28 дней по D−1 включительно, без дней сбоев",
+    "*_lag1": "погода вчера (D−1)",
+    "fx_shock_last3": "был ли скачок курса за D−3…D−1",
+    "dom": "день месяца",
+    "dow": "день недели, 1 = Пн … 7 = Вс"
+  },
+  "params": {
+    "objective": "regression",
+    "subsample": 0.8,
+    "subsample_freq": 1,
+    "num_leaves": 76,
+    "learning_rate": 0.01239779102824997,
+    "min_child_samples": 8,
+    "colsample_bytree": 0.6689640353248316,
+    "reg_lambda": 0.0018037220071913786
+  },
+  "n_estimators": 897,
+  "random_state": 42,
+  "train_period": [
+    "2024-01-11",
+    "2025-06-30"
+  ],
+  "validation_period": [
+    "2025-05-01",
+    "2025-06-30"
+  ],
+  "test_period": [
+    "2025-07-01",
+    "2025-12-31"
+  ],
+  "metrics_test": {
+    "MAE": 129515.0,
+    "WAPE": 0.2272,
+    "WAPE_disrupted_days": 0.2524
+  },
+  "metrics_validation": {
+    "WAPE": 0.2318
+  },
+  "versions": {
+    "python": "3.14.10",
+    "lightgbm": "4.7.0",
+    "scikit-learn": "1.9.1",
+    "pandas": "3.1.1"
+  }
+}
