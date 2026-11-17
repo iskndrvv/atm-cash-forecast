@@ -113,6 +113,14 @@ streamlit run app.py
 
 Для демо нужны `data/processed/daily.parquet` (ноутбук 01) и `models/` (уже в репозитории; пересобирается ноутбуком 03).
 
+### Презентация
+
+```bash
+python reports/make_presentation.py
+```
+
+Собирает `reports/presentation.pptx` с заметками докладчика. Нужны те же `daily.parquet` и `models/`.
+
 ## Структура
 
 ```
