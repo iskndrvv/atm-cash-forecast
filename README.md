@@ -120,6 +120,6 @@ app.py       — Streamlit-демо
 src/         — недельный прогноз на сохранённой модели (forecast.py)
 models/      — итоговая модель LightGBM и описание признаков (features.json)
 notebooks/   — 01 EDA, 02 модели, 03 качество данных и оптимизация, 04 проверка устойчивости
-reports/     — графики
+reports/     — графики, презентация (presentation.pptx) и скрипт её сборки (make_presentation.py)
 data/        — данные (не хранятся в git)
 ```
